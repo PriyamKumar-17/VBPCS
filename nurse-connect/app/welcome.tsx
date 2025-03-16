@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import WelcomeScreenComponent from "../screens/WelcomeScreen";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -26,14 +28,18 @@ type Props = {
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Nurse Connect!</Text>
+      <Image source={require("../assets/logo.jpg")} style={styles.logo} />
+      <Text style={styles.title}>Nurse Connect</Text>
+      <Text style={styles.subtitle}>
+        Connect with your colleagues and enhance patient care.
+      </Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => router.push("/login")}
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
@@ -46,24 +52,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f8ff",
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  logo: {
+    width: 200,
+    height: 200,
     marginBottom: 20,
   },
+  title: {
+    fontSize: 38,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#555",
+    textAlign: "center",
+    marginBottom: 30,
+    fontWeight: "bold",
+  },
   button: {
-    alignItems: "center",
-    backgroundColor: "#007BFF",
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    position: "absolute",
+    bottom: 40,
+    backgroundColor: "#626ae7",
+    paddingVertical: 15,
     width: "95%",
+    borderRadius: 20,
+    alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 25,
+    color: "#ffffff",
+    fontSize: 18,
     fontWeight: "bold",
   },
 });

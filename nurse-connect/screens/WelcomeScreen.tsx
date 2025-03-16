@@ -1,9 +1,14 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RouteProp } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import WelcomeScreenComponent from "../screens/WelcomeScreen";
+
 import { useNavigation } from "@react-navigation/native";
 
+// Define the navigation prop type
 type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
@@ -13,16 +18,28 @@ type WelcomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "Welcome"
 >;
+type WelcomeScreenRouteProp = RouteProp<RootStackParamList, "Welcome">;
 
-type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
+type Props = {
+  navigation: WelcomeScreenNavigationProp;
+  route: WelcomeScreenRouteProp;
+};
 
-const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Welcome">;
+
+const WelcomeScreen = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Nurse Connect!</Text>
+      <Image source={require("../assets/logo.jpg")} style={styles.logo} />
+      <Text style={styles.title}>Nurse Connect</Text>
+      <Text style={styles.subtitle}>
+        Connect with your colleagues and enhance patient care.
+      </Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Login" as never)}
+        onPress={() => router.push("/login")}
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
@@ -33,24 +50,40 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f8ff",
-    paddingVertical: 20,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
+  logo: {
+    width: 200,
+    height: 200,
     marginBottom: 20,
   },
+  title: {
+    fontSize: 38,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#555",
+    textAlign: "center",
+    marginBottom: 30,
+    fontWeight: "bold",
+  },
   button: {
-    backgroundColor: "#007bff",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
+    position: "absolute",
+    bottom: 40,
+    backgroundColor: "#626ae7",
+    paddingVertical: 15,
+    width: "95%",
+    borderRadius: 20,
+    alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
   },
